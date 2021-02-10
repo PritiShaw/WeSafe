@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,20 +14,21 @@ import SafePlace from './components/SafePlaces';
 import Track from './components/Tracker';
 
 const App = () => {
+  const [profile, setProfile] = useState(null)
   return (
     <Router>
       <Layout>
-        <Switch>
-          <Route path="/nearby" exact component={Nearby}/>
-          <Route path="/sos" exact component={SOS}/> 
-          <Route path="/profile" exact component={Profile}/>
-          <Route path="/" exact component={Home}/>
+        {profile ? <Switch>
+          <Route path="/profile" exact component={Profile} />
+          <Route path="/nearby" exact component={Nearby}/>   
           <Route path="/safeplaces" exact component={SafePlace}/>
           <Route path="/track" exact component={Track}/>
+          <Route path="/" exact component={SOS}/> 
           <Route path="*">
             <h1>Not found</h1>
           </Route>
-        </Switch>
+        </Switch> : <Home setProfile={setProfile} />
+        }
       </Layout>
     </Router>
   )

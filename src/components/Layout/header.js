@@ -1,7 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { GoogleLogout } from 'react-google-login';
+
 
 const Header = ({title}) => {
+    const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "691175131535-d54vkdncuttn888ove4spb2ft6i5copn.apps.googleusercontent.com"
+
+    const logOutFunctionSuccess = () => {
+        console.log("loggedout")
+    }
+    const logOutFunctionFail = () => {
+        alert("Failed to Logout, try again")
+    }
     return (
         <nav className="navbar navbar-dark bg-secondary w-100">
             <Link className="navbar-brand" to="/">{title || "WeSafe"}</Link>
@@ -10,8 +20,20 @@ const Header = ({title}) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarToggle">
                 <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li className="nav-item active">
-                        <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/">Home</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/profile">Profile</Link>
+                    </li>
+                    <li className="nav-item">
+                        <GoogleLogout
+                            clientId={googleClientID}
+                            buttonText="Logout"
+                            render={(e)=><a onClick={e.onClick} href="/" className="nav-link">Logout</a>}
+                            onLogoutSuccess={logOutFunctionSuccess}
+                            onFailure={logOutFunctionFail}
+                        />
                     </li>
                 </ul>
             </div>
