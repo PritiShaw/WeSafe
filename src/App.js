@@ -11,6 +11,7 @@ import Profile from './components/Profile';
 import SOS from './components/SOS';
 import Nearby from './components/NearbyEmergency';
 import SafePlace from './components/SafePlaces';
+import Track from './components/Tracker';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/profile" exact component={Profile}/>
           <Route path="/" exact component={Home}/>
           <Route path="/safeplaces" exact component={SafePlace}/>
+          <Route path="/track" exact component={Track}/>
           <Route path="*">
             <h1>Not found</h1>
           </Route>
