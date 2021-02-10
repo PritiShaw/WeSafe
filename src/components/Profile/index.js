@@ -6,7 +6,7 @@ const Profile = () => {
   const [numberList, setNumberList] = useState([])
 
   const addContactsButton = (e) => {
-    setInputList(inputList.concat(<Input idx={numberList.length} required={inputList.length == 0} />))
+    setInputList(inputList.concat(<MemberInput key={numberList.length} idx={numberList.length} required={inputList.length === 0} />))
     setNumberList(numberList.concat(null))
   }
 
@@ -15,11 +15,11 @@ const Profile = () => {
     setNumberList(numberList)
   }
 
-  const Input = ({ idx, required = false }) => {
+  const MemberInput = ({ idx, required = false }) => {
     return (<div className="form-group">
       <label>Member {idx + 1} Details</label>
-      <input name={"member" + idx} type="tel" minlength="10" maxlength="10" 
-        className="form-control border" placeholder="Enter phone number" 
+      <input name={"member" + idx} type="tel" minLength="10" maxLength="10"
+        className="form-control border" placeholder="Enter phone number"
         onChange={(e) => storeInput(e.target.value, idx)} required={required} />
     </div>);
   }
@@ -32,8 +32,9 @@ const Profile = () => {
           {inputList}
           <hr />
           <div className="row px-2">
-
-            <a className="btn btn-primary col mr-1" onClick={addContactsButton}>Add Contact</a>
+            <button type="button" className="btn btn-primary col mr-1" onClick={addContactsButton}>
+              Add Contact
+            </button>
             {
               inputList.length > 0 ? <button type="submit" className="btn btn-success col ml-1" >Save</button> : null
             }
