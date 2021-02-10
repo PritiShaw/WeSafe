@@ -7,21 +7,15 @@ import {
 
 import Layout from './components/Layout';
 import Home from './components/Home';
+import Profile from './components/Profile'
 
 const App = () => {
   return (
     <Router>
       <Layout>
         <Switch>
-          <Route path="/about">
-            <h1>About</h1>
-          </Route>
-          <Route path="/users">
-            <h1>Users</h1>
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+          <Route path="/profile" exact component={Profile}/>
+          <Route path="/" exact component={Home}/>
           <Route path="*">
             <h1>Not found</h1>
           </Route>
