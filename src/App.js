@@ -1,14 +1,16 @@
 import React from 'react';
-import Layout from './components/Layout';
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
 
+import Layout from './components/Layout';
+import Home from './components/Home';
+
 const App = () => {
   return (
-    <Router>      
+    <Router>
       <Layout>
         <Switch>
           <Route path="/about">
@@ -18,7 +20,7 @@ const App = () => {
             <h1>Users</h1>
           </Route>
           <Route path="/">
-            <h1>Home</h1>
+            <Home />
           </Route>
           <Route path="*">
             <h1>Not found</h1>
