@@ -7,9 +7,10 @@ import {
 
 import Layout from './components/Layout';
 import Home from './components/Home';
-import Profile from './components/Profile'
-import SOS from './components/SOS'
-import Nearby from './components/NearbyEmergency'
+import Profile from './components/Profile';
+import SOS from './components/SOS';
+import Nearby from './components/NearbyEmergency';
+import SafePlace from './components/SafePlaces';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/sos" exact component={SOS}/> 
           <Route path="/profile" exact component={Profile}/>
           <Route path="/" exact component={Home}/>
+          <Route path="/safeplaces" exact component={SafePlace}/>
           <Route path="*">
             <h1>Not found</h1>
           </Route>
