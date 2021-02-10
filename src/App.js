@@ -1,29 +1,34 @@
-import React from 'react';
-import Layout from './components/Layout';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
 
+import Layout from './components/Layout';
+import Home from './components/Home';
+import Profile from './components/Profile';
+import SOS from './components/SOS';
+import Nearby from './components/NearbyEmergency';
+import SafePlace from './components/SafePlaces';
+import Track from './components/Tracker';
+
 const App = () => {
+  const [profile, setProfile] = useState(null)
   return (
-    <Router>      
+    <Router>
       <Layout>
-        <Switch>
-          <Route path="/about">
-            <h1>About</h1>
-          </Route>
-          <Route path="/users">
-            <h1>Users</h1>
-          </Route>
-          <Route path="/">
-            <h1>Home</h1>
-          </Route>
+        {profile ? <Switch>
+          <Route path="/profile" exact component={Profile} />
+          <Route path="/nearby" exact component={Nearby}/>   
+          <Route path="/safeplaces" exact component={SafePlace}/>
+          <Route path="/track" exact component={Track}/>
+          <Route path="/" exact component={SOS}/> 
           <Route path="*">
             <h1>Not found</h1>
           </Route>
-        </Switch>
+        </Switch> : <Home setProfile={setProfile} />
+        }
       </Layout>
     </Router>
   )
