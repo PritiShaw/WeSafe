@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 
 const Home = ({ setProfile }) => {
-    const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "691175131535-d54vkdncuttn888ove4spb2ft6i5copn.apps.googleusercontent.com"
+    const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
     const responseGoogleSuccess = (response) => {
         setMessage("")

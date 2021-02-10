@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { GoogleLogout } from 'react-google-login';
 
 
-const Header = ({title}) => {
-    const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "691175131535-d54vkdncuttn888ove4spb2ft6i5copn.apps.googleusercontent.com"
+const Header = ({ title }) => {
+    const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
     const logOutFunctionSuccess = () => {
         console.log("loggedout")
@@ -30,7 +30,7 @@ const Header = ({title}) => {
                         <GoogleLogout
                             clientId={googleClientID}
                             buttonText="Logout"
-                            render={(e)=><a onClick={e.onClick} href="/" className="nav-link">Logout</a>}
+                            render={(e) => <a onClick={e.onClick} href="/" className="nav-link">Logout</a>}
                             onLogoutSuccess={logOutFunctionSuccess}
                             onFailure={logOutFunctionFail}
                         />

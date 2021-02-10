@@ -15,7 +15,9 @@ const App = () => {
     <Router>
       <Layout>
         {profile ? <Switch>
-          <Route path="/profile" exact component={Profile} />
+          <Route path="/profile" exact>
+            <Profile profile={profile}/>
+          </Route>
           {/* <Route path="/" exact component={Home}/> */}
           <Route path="*">
             <h1>Not found</h1>

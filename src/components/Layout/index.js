@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
       <div className="row h-100">
         <div className="col-sm-6 pt-5">
           <center className="mt-5 pt-5">
-            <img src={logoImg} alt="WeSafe"/>
+            <img src={logoImg} alt="WeSafe" />
             <hr />
             <p className="lead">
               <b>Repository : </b>
