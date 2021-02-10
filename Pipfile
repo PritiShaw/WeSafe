@@ -4,5 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pymongo = {extras = ["srv"], version = "*"}
 
 [dev-packages]

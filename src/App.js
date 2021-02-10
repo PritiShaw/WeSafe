@@ -19,7 +19,9 @@ const App = () => {
     <Router>
       <Layout>
         {profile ? <Switch>
-          <Route path="/profile" exact component={Profile} />
+          <Route path="/profile" exact>
+            <Profile profile={profile}/>
+          </Route>
           <Route path="/nearby" exact component={Nearby}/>   
           <Route path="/safeplaces" exact component={SafePlace}/>
           <Route path="/track" exact component={Track}/>
