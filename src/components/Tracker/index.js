@@ -13,7 +13,7 @@ const Tracker = () => {
             <center className="col-12"><p className="display-4 mt-5">Tracker</p></center>
             <div className="col-12 text-center mt-2 pt-2">
                 <center>
-                    <img src={markerImg} style={imageStyle} />
+                    <img src={markerImg} style={imageStyle} alt=""/>
                     <button className=" shadow-lg btn btn-primary btn-block w-75 my-5 bg-primary ">
                         <h3>Track</h3>
                     </button>

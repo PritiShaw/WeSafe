@@ -19,12 +19,12 @@ const NearbyEmergency = () => {
                     </thead>
                     <tbody>                        
                         <tr>
-                            <td><a href="#" target="_blank"><img src={markerImg} alt="Direction"/></a></td>
+                            <td><a href="/" target="_blank"><img src={markerImg} alt="Direction"/></a></td>
                             <td>5 mins ago</td>
                             <td>200m</td>
                         </tr>                        
                         <tr>
-                            <td><a href="#" target="_blank"><img src={markerImg} alt="Direction"/></a></td>
+                            <td><a href="/" target="_blank"><img src={markerImg} alt="Direction"/></a></td>
                             <td>5 mins ago</td>
                             <td>200m</td>
                         </tr>
