@@ -95,7 +95,7 @@ class handler(RequestHandler):
                 emergency_id = str(insert_res.inserted_id)
 
                 self.inform_other_devices(emergency_id, gps_cord)
-                
+
                 response_body = {
                     "status": 200,
                     "id": emergency_id
