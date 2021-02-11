@@ -15,19 +15,21 @@ def sanitze(input_arr):
     return sanitzed_arr
 
 
-class handler(RequestHandler):
-
+class handler(RequestHandler):    
+    collection = "profiles"
     def do_GET(self):
-
         try:
             parameters = self._get_parameters()
-            response_body = {}
-            self._db_connection("profiles")
+            
+            self._db_connection()
+            profiles_collection = self.mongo_database[self.collection]
 
             filter = {
                 "_id": parameters["id"][0]
             }
-            query_res = self.collection.find_one(filter)
+            query_res = profiles_collection.find_one(filter)
+            
+            response_body = {}            
 
             if query_res:
                 response_body = {
@@ -50,13 +52,15 @@ class handler(RequestHandler):
     def do_POST(self):
         try:
             json_data = self._get_json_data()
-            self._db_connection("profiles")
+
+            self._db_connection()
+            profiles_collection = self.mongo_database[self.collection]
 
             filter = {
                 "_id": json_data["id"]
             }
 
-            insert_res = self.collection.replace_one(filter, {
+            insert_res = profiles_collection.replace_one(filter, {
                 "_id": json_data["id"],
                 "emergency_contacts": sanitze(json_data["numbers"])
             }, upsert=True)

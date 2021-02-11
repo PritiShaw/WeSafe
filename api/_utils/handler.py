@@ -7,16 +7,16 @@ import pymongo
 
 
 class RequestHandler(BaseHTTPRequestHandler):
-    collection = None
+    mongo_database = None
 
-    def _db_connection(self, collection):
-        if self.collection is None:
+    def _db_connection(self):
+        if self.mongo_database is None:
             mongo_srv = os.environ.get(
                 "MONGO_SRV", "mongodb://localhost:27017/")
-            db_client = pymongo.MongoClient(mongo_srv)
-            self.collection = db_client["weSafe"][collection]
+            mongo_client = pymongo.MongoClient(mongo_srv)
+            self.mongo_database = mongo_client["weSafe"]
 
-    def _set_response(self, code=200, content_type='application/json'):
+    def _set_headers(self, code=200, content_type='application/json'):
         self.send_response(code)
         self.send_header('Content-type', content_type)
         self.end_headers()
@@ -34,5 +34,9 @@ class RequestHandler(BaseHTTPRequestHandler):
         return {}
 
     def _send_response(self, response_body):
-        self._set_response(response_body["status"])
+        self._set_headers(response_body["status"])
+        try:
+            response_body["data"]["_id"] = str(response_body["data"]["_id"])
+        except:
+            pass
         self.wfile.write(json.dumps(response_body).encode('utf-8'))

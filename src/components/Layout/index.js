@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   return (
     <div className="container-fluid h-100">
       <div className="row h-100">
-        <div className="col-sm-6 pt-5">
+        <div className="col-sm-6 pt-5 d-none d-md-block">
           <center className="mt-5 pt-5">
             <img src={logoImg} alt="WeSafe" />
             <hr />
@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
               <a href="https://github.com/PritiShaw/WeSafe" target="_blank" rel="noreferrer">github.com/PritiShaw/WeSafe</a></p>
           </center>
         </div>
-        <div className="col-sm-4  col-12 mobile">
+        <div className="col-sm-4 col-12 mobile my-sm-2">
           {children}
         </div>
       </div>
