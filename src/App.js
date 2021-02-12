@@ -73,7 +73,7 @@ const App = () => {
       const userGpsCord = [position.coords.latitude, position.coords.longitude]
       const distanceToEmergency = distance(userGpsCord, victimCordinates)
       console.log(distanceToEmergency)
-      if (distanceToEmergency > 0 && distanceToEmergency < 5) // 5Km
+      if (distanceToEmergency > 0 && distanceToEmergency < 10) // 10Km
         acceptEmergency(userGpsCord, victimCordinates, newEmergencyId, distanceToEmergency)
 
     }, (error) => {
