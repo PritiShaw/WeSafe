@@ -14,9 +14,64 @@ import SOS from './components/SOS';
 import Nearby from './components/NearbyEmergency';
 import SafePlace from './components/SafePlaces';
 import Track from './components/Tracker';
+import EmergencyToast from './components/emergencyToast'
 
 const App = () => {
   const [profile, setProfile] = useState(null)
+  const [emergencies, setEmergencies] = useState([])
+
+
+  const handleIncomingEmergency = async (data) => {
+    const emergencyId = data["emergency_id"]
+    const victimCordinates = data["victim_cord"]
+
+    const distance = (point1, point2) => {
+      const R = 6371; // km
+      const toRadFactor = Math.PI / 180
+      const dLat = toRadFactor * (point2[0] - point1[0]);
+      const dLon = toRadFactor * (point2[1] - point1[1]);
+      const lat1 = toRadFactor * (point1[0]);
+      const lat2 = toRadFactor * (point2[0]);
+
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const d = R * c;
+      return d;
+    }
+
+    const acceptEmergency = (userCordinates, victimCordinates, emergencyID) => {
+      setEmergencies(emergencies.push({
+        userCordinates, victimCordinates, emergencyID
+      }))
+      window.$("#emergency-toast").toast('show')
+
+      // Update nearby device in server
+      fetch('/api/accept_emergency', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "gps": userCordinates,
+          "emergency_id": emergencyID
+        })
+      });
+    }
+
+    // get user gps
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const userGpsCord = [position.coords.latitude, position.coords.longitude]
+      const distanceToEmergency = distance(userGpsCord, victimCordinates)
+      if (distanceToEmergency < 1) // 1Km
+        acceptEmergency(userGpsCord, victimCordinates, emergencyId)
+
+    }, (error) => {
+      console.warn("Could not fetch device location", error.message)
+    });
+  }
+
 
   // Onload
   useEffect(() => {
@@ -28,18 +83,15 @@ const App = () => {
     });
     const channel = pusher.subscribe(channelName);
     const eventName = "emergency"
-    
     channel.bind(eventName, data => {
       handleIncomingEmergency(data)
     });
 
     return () => channel.unbind(eventName);
 
-  }, [])
+  }, [])    // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleIncomingEmergency = async (data) => {
-    console.log(data) // TODO
-  }
+
 
   return (
     <Router>
@@ -56,6 +108,12 @@ const App = () => {
             <h1>Not found</h1>
           </Route>
         </Switch> : <Home setProfile={setProfile} />
+        }
+        {
+          emergencies.length > 0 ? <EmergencyToast
+            distance={emergencies[emergencies.length - 1].distance}
+            tracking_id={emergencies[emergencies.length - 1].tracking_id}
+          /> : null
         }
       </Layout>
     </Router>

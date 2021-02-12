@@ -3,3 +3,8 @@ body,
 #root {
   height: 100%;
 }
+
+#emergency-toast {
+  top:2em;
+  right:0
+}
