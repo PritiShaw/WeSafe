@@ -16,6 +16,10 @@ Like most of the women safety application, during an emergency the application w
 ![](https://i.imgur.com/TmkgkPn.png)
 ![](https://i.imgur.com/pFQnyMv.png)
 
+
+**Live Tracking**  
+![](https://i.imgur.com/X1HArnQ.png)
+
 ## Technologies Used
 
 -    ReactJS for Frontend Single Page Application
@@ -23,6 +27,9 @@ Like most of the women safety application, during an emergency the application w
 -    MongoDB as NoSQL Database
 -    Vercel for Continuous Deployment and hosting
 -    Pusher for Notification using websocket
+
+## LightShot Report
+![](https://i.imgur.com/oCIlNhm.png)
 
 ## Future Functionalities
 -    Send SMS to saved contacts
