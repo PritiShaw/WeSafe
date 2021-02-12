@@ -15,8 +15,7 @@ class DBSCAN:
         MyDBSCAN takes a dataset `D` (a list of vectors), a threshold distance
         `eps`, and a required number of points `MinPts`.
 
-        It will return a list of cluster labels. The label -1 means noise, and then
-        the clusters are numbered starting from 1.
+        It will nearest center
         """
 
         # This list will hold the final cluster assignment for each point in D.

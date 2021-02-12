@@ -31,12 +31,18 @@ class handler(RequestHandler):
                     "isActive": True
                 }
 
+
                 query_res = emergency_collection.find_one(
                     filter, {"nearby_devices": 1, "gps_history": 1})
                 nearby_devices = query_res["nearby_devices"]
 
-                if gps_longitude and gps_longitude:
-                    gps_cord = [gps_latitude, gps_longitude]
+                if not gps_longitude or not gps_longitude:
+                    gps_cord = [gps_latitude, gps_longitude]                    
+                    emergency_collection.update_one(filter, {
+                            '$push': {
+                                'gps_history': gps_cord
+                            }
+                        })
                 else:
                     gps_cord = query_res["gps_history"][-1]
 
