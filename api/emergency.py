@@ -4,6 +4,8 @@ from bson.objectid import ObjectId
 
 import uuid
 import json
+import pusher
+import os
 
 
 def inform_police(victim_gps, tracking_id):
@@ -31,8 +33,22 @@ class handler(RequestHandler):
         send_sms(emergency_contacts, tracking_id)
 
     def inform_other_devices(self, emergency_id, gps):
-        # TODO
-        return
+        pusher_client = pusher.Pusher(
+            app_id=os.environ["PUSHER_APP_ID"],
+            key=os.environ["REACT_APP_PUSHER_KEY"],
+            secret=os.environ["PUSHER_APP_SECRET"],
+            cluster=os.environ["REACT_APP_PUSHER_CLUSTER"]
+        )
+
+        channel = os.environ.get("REACT_APP_PUSHER_CHANNEL", "wesafe")
+        event_name = "emergency"
+
+        payload = {
+            "emergency_id": emergency_id,
+            "victim_cord": gps
+        }
+
+        pusher_client.trigger(channel, event_name, payload)
 
     def do_GET(self):
         try:
