@@ -23,9 +23,9 @@ const App = () => {
 
 
   const handleIncomingEmergency = async (data) => {
-    const emergencyId = data["emergency_id"]
+    const newEmergencyId = data["emergency_id"]
     const victimCordinates = data["victim_cord"]
-    console.log(data)
+    
     const distance = (point1, point2) => {
       const R = 6371; // km
       const toRadFactor = Math.PI / 180
@@ -41,7 +41,7 @@ const App = () => {
       return d;
     }
 
-    const acceptEmergency = async (userCordinates, victimCordinates, emergencyID, distance) => {      
+    const acceptEmergency = async (userCordinates, victimCordinates, emergencyID, distance) => {
 
       // Update nearby device in server
       const response = await fetch('/api/active_emergency', {
@@ -52,17 +52,18 @@ const App = () => {
         },
         body: JSON.stringify({
           "gps": {
-              "latitude" : userCordinates[0],
-              "longitude" : userCordinates[1]
+            "latitude": userCordinates[0],
+            "longitude": userCordinates[1]
           },
           "emergency_id": emergencyID
         })
       });
-      const {tracking_id} = await response.json()
+      const { tracking_id } = await response.json()
       const timestamp = new Date()
       emergencies.push({
         timestamp, userCordinates, victimCordinates, emergencyID, distance, tracking_id
       })
+      console.log(emergencies)
       setEmergencies(emergencies)
       window.$("#emergency-toast").toast('show')
     }
@@ -71,9 +72,9 @@ const App = () => {
     navigator.geolocation.getCurrentPosition(async (position) => {
       const userGpsCord = [position.coords.latitude, position.coords.longitude]
       const distanceToEmergency = distance(userGpsCord, victimCordinates)
-      if (distanceToEmergency < 5) // 5Km
-        acceptEmergency(userGpsCord, victimCordinates, emergencyId, distanceToEmergency)
-      
+      if (distanceToEmergency>0 && distanceToEmergency < 5) // 5Km
+        acceptEmergency(userGpsCord, victimCordinates, newEmergencyId, distanceToEmergency)
+
     }, (error) => {
       console.warn("Could not fetch device location", error.message)
     });
@@ -108,9 +109,9 @@ const App = () => {
             <Profile profile={profile} />
           </Route>
           <Route path="/nearby" exact >
-            <NearbyEmergency emergencies={emergencies}/>
+            <NearbyEmergency emergencies={emergencies} />
           </Route>
-          <Route path="/track" exact component={Track} />
+          <Route path="/track/:trackingID" exact component={Track}/>
           <Route path="/safeplace" exact>
             <SafePlace emergencyId={emergencyID} setEmergencyId={setEmergencyID} />
           </Route>
