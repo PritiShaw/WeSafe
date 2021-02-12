@@ -57,7 +57,7 @@ class handler(RequestHandler):
             emergency_collection = self.mongo_database["emergencies"]
 
             filter = {
-                "tracking_id": ObjectId(parameters["id"][0])
+                "tracking_id": parameters["id"][0]
             }
             query_res = emergency_collection.find_one(filter)
             if query_res:
