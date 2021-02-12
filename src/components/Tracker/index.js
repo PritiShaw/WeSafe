@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Layout/header';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
-import "./style.css"
-
 const Map = ({ path }) => {
 
     let center = [0, 0]
