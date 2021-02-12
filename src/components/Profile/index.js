@@ -84,7 +84,7 @@ const Profile = ({ profile }) => {
   return (
     <div className="row">
       <Header title="Emergency Contacts" />
-      <div className="col-12 py-2">
+      <div className="col-12 mt-5 py-3">
         <form onSubmit={profileFormSubmit}>
           {
             numberList.map((number, idx) => <MemberInput key={idx} value={number} idx={idx} required={idx === 0} />)

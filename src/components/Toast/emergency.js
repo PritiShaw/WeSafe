@@ -10,7 +10,7 @@ const EmergencyToast = ({distance, tracking_id}) => (
             </button>
         </div>
         <div className="toast-body">
-            {distance*100} meters away, tap to navigate
+            {Math.round(distance*1000)} meters away, tap to navigate
         </div>    
     </div>
 

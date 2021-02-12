@@ -2,3 +2,7 @@
     border: .25em solid black;
     border-radius: .25em;
 }
+
+.navbar {
+    z-index: 1000;
+}

@@ -1,41 +1,60 @@
-import React, { useState } from 'react';
-import { GoogleLogin } from 'react-google-login';
+import React from 'react';
+import { Link, Redirect } from 'react-router-dom';
 
-const Home = ({ setProfile }) => {
-    const googleClientID = process.env.REACT_APP_GOOGLE_CLIENT_ID
+import Header from '../Layout/header';
 
-    const responseGoogleSuccess = (response) => {
-        setMessage("")
-        const { profileObj } = response
-        setProfile(profileObj)
+import './style.css'
+
+const SOS = ({ emergencyId, setEmergencyId, profile }) => {
+
+    const initiateEmergency = async () => {
+        const { googleId } = profile
+        // get user gps
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const request_body = {
+                "userid": googleId,
+                "gps": {
+                    "latitude" : position.coords.latitude,
+                    "longitude" : position.coords.longitude
+                }
+            }
+            const result = await fetch('/api/emergency', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(request_body)
+            });
+            const response = await result.json()
+            setEmergencyId(response.id)
+
+        }, (error) => {
+            alert("Could not fetch device location, Try Again ", error.message)
+        });
+
     }
-    const responseGoogleFail = (response) => {
-        const { error } = response
-        setMessage(error)
-        setProfile(null)
-    }
 
-    const [message, setMessage] = useState("")
+    if (emergencyId)
+        return <Redirect to='/safeplace' />
 
     return (
         <div className="row">
+            <Header />
             <div className="col-12 text-center mt-5 pt-5">
-                <h1 className="mt-5 pt-5">Welcome!</h1>
                 <center>
-                    <GoogleLogin
-                        clientId={googleClientID}
-                        buttonText="Login with Google"
-                        onSuccess={responseGoogleSuccess}
-                        onFailure={responseGoogleFail}
-                        isSignedIn={true}
-                        theme="dark"
-                        className="mt-5"
-                    />
-                    <p className="lead mt-5 pt-5">{message}</p>
+                    <button className="btn btn-primary btn-block border shadow-lg w-75 my-5 sos"
+                        aria-label="Emergency" onClick={initiateEmergency}>
+                        <span className="display-1 font-weight-bold">SOS</span>
+                    </button>
+                    <hr />
+                    <Link to="/nearby" className="btn btn-success mt-5 text-center btn-lg btn-block mb-5">
+                        <span className="lead text-light font-weight-normal">Nearby Emergencies</span>
+                    </Link>
                 </center>
             </div>
         </div>
     )
 }
 
-export default Home;
+export default SOS;

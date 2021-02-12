@@ -1,0 +1,17 @@
+.sos {
+    border-radius: 25em !important;
+    height: 15em;
+    -webkit-animation: flash 1s infinite;  /* Safari 4+ */
+    -moz-animation: flash 1s infinite;  /* Fx 5+ */
+    -o-animation: flash 1s infinite;  /* Opera 12+ */
+    animation: flash 1s infinite;  /* IE 10+, Fx 29+ */
+}
+
+@keyframes flash {
+0%, 49% {
+    background-color: orangered;
+}
+50%, 100% {
+    background-color: #d9534f;
+}
+}

@@ -13,7 +13,7 @@ const Header = ({ title }) => {
         alert("Failed to Logout, try again")
     }
     return (
-        <nav className="navbar navbar-dark bg-secondary w-100">
+        <nav className="navbar position-absolute navbar-dark bg-secondary w-100">
             <Link className="navbar-brand" to="/">{title || "WeSafe"}</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon" />
@@ -24,7 +24,10 @@ const Header = ({ title }) => {
                         <Link className="nav-link" to="/">Home</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/profile">Profile</Link>
+                        <Link className="nav-link" to="/profile">Emergency Contacts</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/nearby">Nearby Emergencies</Link>
                     </li>
                     <li className="nav-item">
                         <GoogleLogout
