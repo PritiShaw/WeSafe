@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,14 +7,14 @@ import {
 import Pusher from 'pusher-js';
 
 
-import Layout from './components/Layout';
-import Login from './components/Login';
-import Profile from './components/Profile';
-import Home from './components/Home';
-import SafePlace from './components/SafePlaces';
-import Track from './components/Tracker';
-import EmergencyToast from './components/Toast/emergency'
-import NearbyEmergency from './components/NearbyEmergency';
+const Layout = React.lazy(() => import('./components/Layout'));
+const Login = React.lazy(() => import('./components/Login'));
+const Profile = React.lazy(() => import('./components/Profile'));
+const Home = React.lazy(() => import('./components/Home'));
+const SafePlace = React.lazy(() => import('./components/SafePlaces'));
+const Track = React.lazy(() => import('./components/Tracker'));
+const EmergencyToast = React.lazy(() => import('./components/Toast/emergency'));
+const NearbyEmergency = React.lazy(() => import('./components/NearbyEmergency'));
 
 const App = () => {
   const [profile, setProfile] = useState(null)
@@ -25,7 +25,7 @@ const App = () => {
   const handleIncomingEmergency = async (data) => {
     const newEmergencyId = data["emergency_id"]
     const victimCordinates = data["victim_cord"]
-    
+
     const distance = (point1, point2) => {
       const R = 6371; // km
       const toRadFactor = Math.PI / 180
@@ -73,7 +73,7 @@ const App = () => {
       const userGpsCord = [position.coords.latitude, position.coords.longitude]
       const distanceToEmergency = distance(userGpsCord, victimCordinates)
       console.log(distanceToEmergency)
-      if (distanceToEmergency>0 && distanceToEmergency < 5) // 5Km
+      if (distanceToEmergency > 0 && distanceToEmergency < 5) // 5Km
         acceptEmergency(userGpsCord, victimCordinates, newEmergencyId, distanceToEmergency)
 
     }, (error) => {
@@ -103,35 +103,37 @@ const App = () => {
 
 
   return (
-    <Router>
-      <Layout>
-        {profile ? <Switch>
-          <Route path="/profile" exact>
-            <Profile profile={profile} />
-          </Route>
-          <Route path="/nearby" exact >
-            <NearbyEmergency emergencies={emergencies} />
-          </Route>
-          <Route path="/track/:trackingID" exact component={Track}/>
-          <Route path="/safeplace" exact>
-            <SafePlace emergencyId={emergencyID} setEmergencyId={setEmergencyID} />
-          </Route>
-          <Route path="/" exact>
-            <Home emergencyId={emergencyID} setEmergencyId={setEmergencyID} profile={profile} />
-          </Route>
-          <Route path="*">
-            <h1>Not found</h1>
-          </Route>
-        </Switch> : <Login setProfile={setProfile} />
-        }
-        {
-          emergencies.length > 0 ? <EmergencyToast
-            distance={emergencies[emergencies.length - 1].distance}
-            tracking_id={emergencies[emergencies.length - 1].tracking_id}
-          /> : null
-        }
-      </Layout>
-    </Router>
+    <Suspense fallback={<p className="lead w-100 mt-5 pt-5 text-center">Loading...</p>}>
+      <Router>
+        <Layout>
+          {profile ? <Switch>
+            <Route path="/profile" exact>
+              <Profile profile={profile} />
+            </Route>
+            <Route path="/nearby" exact >
+              <NearbyEmergency emergencies={emergencies} />
+            </Route>
+            <Route path="/track/:trackingID" exact component={Track} />
+            <Route path="/safeplace" exact>
+              <SafePlace emergencyId={emergencyID} setEmergencyId={setEmergencyID} />
+            </Route>
+            <Route path="/" exact>
+              <Home emergencyId={emergencyID} setEmergencyId={setEmergencyID} profile={profile} />
+            </Route>
+            <Route path="*">
+              <h1>Not found</h1>
+            </Route>
+          </Switch> : <Login setProfile={setProfile} />
+          }
+          {
+            emergencies.length > 0 ? <EmergencyToast
+              distance={emergencies[emergencies.length - 1].distance}
+              tracking_id={emergencies[emergencies.length - 1].tracking_id}
+            /> : null
+          }
+        </Layout>
+      </Router>
+    </Suspense>
   )
 }
 
