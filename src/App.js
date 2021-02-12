@@ -72,7 +72,8 @@ const App = () => {
     navigator.geolocation.getCurrentPosition(async (position) => {
       const userGpsCord = [position.coords.latitude, position.coords.longitude]
       const distanceToEmergency = distance(userGpsCord, victimCordinates)
-      if (distanceToEmergency>0 && distanceToEmergency < 5) // 5Km
+      console.log(distanceToEmergency)
+      // if (distanceToEmergency>0 && distanceToEmergency < 5) // 5Km
         acceptEmergency(userGpsCord, victimCordinates, newEmergencyId, distanceToEmergency)
 
     }, (error) => {
