@@ -6,7 +6,6 @@ import Header from '../Layout/header';
 import markerImg from '../../assets/images/marker.png';
 
 const timeSince = (date) => {
-
     const seconds = Math.floor((new Date() - date) / 1000);
 
     let interval = seconds / 31536000;
@@ -36,7 +35,7 @@ const timeSince = (date) => {
 const NearbyEmergency = ({ emergencies }) => {
     return (
         <div className="row">
-            <Header title="Nearby Emergencies"/>
+            <Header title="Nearby Emergencies"/>            
             <div className="col-12 mt-5 pt-3 px-0">
                 <table className="table table-striped w-100">
                     <thead>
@@ -50,9 +49,9 @@ const NearbyEmergency = ({ emergencies }) => {
                         {
                             (emergencies && emergencies.length > 0) ? emergencies.map((emergency) => (
                                 <tr>
-                                    <td><Link to={`/track?id=${emergency.emergencyID}`}><img src={markerImg} alt="Direction" /></Link></td>
-                                    <td>{timeSince(emergencies.timestamp)}</td>
-                                    <td>{emergency.distance}</td>
+                                    <td><Link to={`/track/${emergency.tracking_id}`}><img src={markerImg} alt="Direction" /></Link></td>
+                                    <td>{timeSince(emergency.timestamp)} ago</td>
+                                    <td>{emergency.distance<1?Math.round(emergency.distance*1000):`${Math.round(emergency.distance*100)/100}k`}m</td>
                                 </tr>
                                 )
                             ):<tr><td colSpan="3" className="text-center">No Emergency</td></tr>
